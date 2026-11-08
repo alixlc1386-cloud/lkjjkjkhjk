@@ -1,0 +1,6 @@
+{
+  "ai_base": "https://api.openai.com/v1",
+  "ai_model": "gpt-4o-mini",
+  "auto": "0",
+  "bale_token": ""
+}

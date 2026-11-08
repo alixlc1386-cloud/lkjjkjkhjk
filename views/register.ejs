@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ثبت‌نام | YASIN AI ADS</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <canvas id="bg3d"></canvas>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="glow g3"></div>
+  <main class="loginwrap">
+    <section class="card login">
+      <div class="brandmark big">YA</div>
+      <small>ساخت حساب کاربری</small>
+      <h1>ثبت‌نام در YASIN AI ADS</h1>
+      <p>برای هر کاربر، تنظیمات و اطلاعات اتصال جداگانه نگهداری می‌شود.</p>
+      <% if (err) { %>
+        <div class="error"><%= err %></div>
+      <% } %>
+      <form method="post" action="register.php">
+        <input type="hidden" name="csrf" value="<%= csrf %>">
+        <input name="phone" type="tel" required placeholder="شماره موبایل با کد کشور">
+        <input name="password" type="password" required minlength="12" placeholder="رمز عبور (حداقل ۱۲ نویسه)">
+        <input name="confirm" type="password" required placeholder="تکرار رمز عبور">
+        <button class="primary" type="submit">ساخت حساب</button>
+      </form>
+      <p class="microhint">شماره برای نام کاربری سایت ذخیره می‌شود؛ این مرحله ورود به حساب بله یا تأیید مالکیت شماره نیست.</p>
+      <a class="setupLink" href="login.php">قبلاً ثبت‌نام کرده‌ام؛ ورود</a>
+    </section>
+  </main>
+  <script src="assets/fx.js"></script>
+</body>
+</html>

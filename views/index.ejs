@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090d1c">
+  <title>YASIN AI ADS | پنل هوشمند</title>
+  <meta name="description" content="دستیار هوشمند تبلیغات و انتشار خودکار در بله با فرمان صوتی و هوش مصنوعی">
+  <meta property="og:title" content="YASIN AI ADS">
+  <meta property="og:description" content="دستیار هوشمند تبلیغات و انتشار خودکار در بله با فرمان صوتی و هوش مصنوعی">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<canvas id="bg3d"></canvas>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<div class="glow g3"></div>
+
+<!-- Top Navigation Bar -->
+<header class="top">
+  <div class="inner">
+    <div class="top-left-group">
+      <button class="nav-toggle" id="navToggle" title="منوی ناوبری داشبورد" aria-label="منو">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a class="brand" href="#">
+        <span class="brandmark">YA</span>
+        <span>
+          <b>YASIN AI ADS</b>
+          <small>داشبورد هوشمند تبلیغات و بله</small>
+        </span>
+      </a>
+    </div>
+    <div class="topright">
+      <span class="live"><i></i> سیستم فعال</span>
+      <span class="tag" id="userHeaderTag"><%= userPhone || 'کاربر فعال' %></span>
+      <button class="top-auth-btn" id="topAuthBtn" type="button">ورود به بله 📲</button>
+    </div>
+  </div>
+</header>
+
+<!-- Drawer Sidebar Navigation -->
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="sideDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title">
+      <span class="brandmark sm">YA</span>
+      <div>
+        <b>منوی داشبورد هوشمند</b>
+        <small>YASIN AI ADS PRO</small>
+      </div>
+    </div>
+    <button class="drawer-close" id="drawerClose" title="بستن منو">✕</button>
+  </div>
+
+  <div class="drawer-menu">
+    <a href="#mainDashboardSection" class="drawer-item highlight" data-target="mainDashboardSection">
+      <span class="d-icon">🚀</span>
+      <div class="d-text">
+        <b>داشبورد شبکه‌ها و کمپین‌ها</b>
+        <small>حساب‌های متصل و رصد کمپین‌های تبلیغاتی</small>
+      </div>
+      <span class="mini-pill" id="drawerCampaignsCount">فعال</span>
+    </a>
+    <a href="#overviewSection" class="drawer-item" data-target="overviewSection">
+      <span class="d-icon">📊</span>
+      <div class="d-text">
+        <b>نمای کلی و آمار سیستم</b>
+        <small>وضعیت اتصال‌ها و شمارنده انتشار</small>
+      </div>
+    </a>
+    <a href="#aiSection" class="drawer-item" data-target="aiSection">
+      <span class="d-icon">🤖</span>
+      <div class="d-text">
+        <b>دستیار صوتی و متنی هوش مصنوعی</b>
+        <small>ساخت تبلیغات با فرمان فارسی و میکروفون</small>
+      </div>
+    </a>
+    <a href="#userbotSection" class="drawer-item highlight" data-target="userbotSection">
+      <span class="d-icon">📲</span>
+      <div class="d-text">
+        <b>ورود پیشرفته به اکانت بله (UserBot)</b>
+        <small>ارسال فوری کد OTP و نشست پایدار</small>
+      </div>
+      <span class="mini-pill" id="drawerBotStatus">غیرمتصل</span>
+    </a>
+    <a href="#forwarderPanel" class="drawer-item" data-target="forwarderPanel">
+      <span class="d-icon">🔄</span>
+      <div class="d-text">
+        <b>ربات فورواردر خودکار تبلیغات</b>
+        <small>انتقال هوشمند پست‌ها از کانال‌های مبدا</small>
+      </div>
+    </a>
+    <a href="#publisherSection" class="drawer-item" data-target="publisherSection">
+      <span class="d-icon">✍</span>
+      <div class="d-text">
+        <b>انتشار مستقیم محتوا (عکس و متن)</b>
+        <small>ارسال بدون واسطه به کانال بله</small>
+      </div>
+    </a>
+    <a href="#settingsSection" class="drawer-item" data-target="settingsSection">
+      <span class="d-icon">⚙</span>
+      <div class="d-text">
+        <b>تنظیمات سیستم و کلیدهای API</b>
+        <small>توکن ربات، آدرس مدل و رمز زمان‌بندی</small>
+      </div>
+    </a>
+    <a href="#logsSection" class="drawer-item" data-target="logsSection">
+      <span class="d-icon">📋</span>
+      <div class="d-text">
+        <b>گزارش وقایع و تاریخچه فعالیت‌ها</b>
+        <small>مشاهده زنده لاگ‌های ثبت‌شده</small>
+      </div>
+    </a>
+  </div>
+
+  <div class="drawer-footer">
+    <div class="bot-info-card">
+      <div class="bot-info-dot" id="drawerBotDot"></div>
+      <div>
+        <b id="drawerBotLabel">ربات بله: در انتظار اتصال</b>
+        <small id="drawerBotDetail">اتصال با شماره و کد OTP</small>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main class="wrap">
+<!-- Welcome 3D Section -->
+<section class="welcome" id="welcomeSection">
+  <div class="cube-scene"><div class="cube">
+    <div class="face f1">یاسین</div><div class="face f2">AI</div><div class="face f3">ADS</div>
+    <div class="face f4">✦</div><div class="face f5">پنل</div><div class="face f6">⚡</div>
+  </div></div>
+  <div class="kicker">✦ نسل تازه مدیریت تبلیغات ✦</div>
+  <h1>تو فرمان بده؛ <em>هوش مصنوعی</em><br>بقیه‌اش را انجام می‌دهد.</h1>
+  <p>ورود پیشرفته به اکانت بله، فوروارد خودکار تبلیغات از کانال‌های دیگر و انتشار محتوا با فرمان صوتی فارسی.</p>
+  <div class="badges"><span>✦ دستیار فارسی</span><span>✦ ورود به بله</span><span>✦ فورواردر خودکار</span></div>
+  <div class="scrolldown">اسکرول کن تا شروع کنیم</div>
+</section>
+
+<!-- Main Dashboard: Connected Social Accounts & Ad Campaigns Hub -->
+<section class="dash-main-container reveal" id="mainDashboardSection">
+  <!-- Top Header Banner -->
+  <div class="dash-header-row">
+    <div class="dash-header-text">
+      <h1>
+        <span>🚀</span>
+        داشبورد جامع مدیریت شبکه‌ها و کمپین‌های تبلیغاتی
+      </h1>
+      <p>مدیریت همزمان حساب‌های متصل در بله، تلگرام، اینستاگرام، ایتا و روبیکا · رصد زنده و اجرای هوشمند کمپین‌های تبلیغاتی با هوش مصنوعی</p>
+    </div>
+    <div class="dash-header-actions">
+      <button class="btn-dash-primary" id="btnOpenNewCampaignModal" type="button">
+        <span>✦</span> ایجاد کمپین تبلیغاتی جدید
+      </button>
+      <button class="btn-dash-secondary" id="btnOpenNewAccountModal" type="button">
+        <span>+</span> اتصال شبکه جدید
+      </button>
+      <button class="btn-dash-secondary" id="btnRefreshDashboard" type="button" title="تازه‌سازی آمار">
+        <span>🔄</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary KPI Strip -->
+  <div class="dash-kpis-strip">
+    <div class="kpi-tile">
+      <div class="kpi-label">
+        <span>کمپین‌های فعال</span>
+        <span>⚡</span>
+      </div>
+      <div class="kpi-value"><span id="dashKpiActiveCampaigns">۲</span> <small style="font-size:14px;color:var(--muted);font-weight:600">/ <span id="dashKpiTotalCampaigns">۴</span></small></div>
+      <div class="kpi-hint">در حال انتشار خودکار و هوشمند</div>
+    </div>
+    <div class="kpi-tile kpi-purple">
+      <div class="kpi-label">
+        <span>مجموع نمایش تبلیغات</span>
+        <span>👁️</span>
+      </div>
+      <div class="kpi-value" id="dashKpiImpressions">۳۳۷,۹۰۰</div>
+      <div class="kpi-hint">بازدید یکتای ثبت‌شده در کانال‌ها</div>
+    </div>
+    <div class="kpi-tile kpi-pink">
+      <div class="kpi-label">
+        <span>نرخ کلیک و تعامل (CTR)</span>
+        <span>📈</span>
+      </div>
+      <div class="kpi-value" id="dashKpiCtr">۶.۴٪</div>
+      <div class="kpi-hint"><span id="dashKpiClicks">۲۱,۷۳۰</span> کلیک بهینه‌شده با AI</div>
+    </div>
+    <div class="kpi-tile kpi-green">
+      <div class="kpi-label">
+        <span>پست‌های منتشرشده</span>
+        <span>📤</span>
+      </div>
+      <div class="kpi-value" id="dashKpiPublished">۴۳</div>
+      <div class="kpi-hint">ارسال مستقیم و فوروارد خودکار</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-label">
+        <span>شبکه‌های متصل</span>
+        <span>🌐</span>
+      </div>
+      <div class="kpi-value"><span id="dashKpiConnectedAccs">۴</span> <small style="font-size:14px;color:var(--muted);font-weight:600">/ <span id="dashKpiTotalAccs">۵</span></small></div>
+      <div class="kpi-hint">پیام‌رسان‌های داخلی و بین‌المللی</div>
+    </div>
+  </div>
+
+  <!-- Part 1: Connected Social Media Accounts Panel -->
+  <div class="dash-section-card" id="socialAccountsPanel">
+    <div class="dash-section-header">
+      <div class="dash-section-title">
+        <span style="font-size:20px">📱</span>
+        <h2>شبکه‌های اجتماعی و پیام‌رسان‌های متصل</h2>
+        <span class="dash-count-tag" id="dashAccountsCountTag">۴ متصل</span>
+      </div>
+      <div>
+        <button class="btn-card-action" id="btnQuickAddAccount" type="button">+ افزودن حساب کاربری</button>
+      </div>
+    </div>
+    <!-- Social Accounts Grid Container -->
+    <div class="social-accounts-grid" id="socialAccountsGrid">
+      <div style="color:var(--muted);font-size:13px;padding:20px;text-align:center">در حال بارگذاری حساب‌های متصل...</div>
+    </div>
+  </div>
+
+  <!-- Part 2: Current Advertisement Campaigns Panel -->
+  <div class="dash-section-card" id="campaignsPanel">
+    <div class="dash-section-header">
+      <div class="dash-section-title">
+        <span style="font-size:20px">📢</span>
+        <h2>کمپین‌های تبلیغاتی جاری</h2>
+        <span class="dash-count-tag" id="dashCampaignsCountTag">۴ کمپین</span>
+      </div>
+      <button class="btn-dash-primary" id="btnQuickNewCampaign" type="button" style="padding:6px 14px;font-size:12px">
+        <span>+</span> کمپین جدید
+      </button>
+    </div>
+
+    <!-- Filter Segmented Controls -->
+    <div class="campaign-filters-row">
+      <div class="segmented-control" id="campaignFilterControls">
+        <button type="button" class="segmented-btn active" data-filter="all">همه کمپین‌ها (<span id="countFilterAll">۴</span>)</button>
+        <button type="button" class="segmented-btn" data-filter="active">فعال (<span id="countFilterActive">۲</span>)</button>
+        <button type="button" class="segmented-btn" data-filter="scheduled">زمان‌بندی‌شده (<span id="countFilterScheduled">۱</span>)</button>
+        <button type="button" class="segmented-btn" data-filter="paused">متوقف (<span id="countFilterPaused">۱</span>)</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted)">
+        💡 قابلیت اجرای آنی (Run Now ⚡) یا توقف موقت هر کمپین با یک کلیک
+      </div>
+    </div>
+
+    <!-- Campaigns Grid Container -->
+    <div class="campaigns-grid" id="campaignsGrid">
+      <div style="color:var(--muted);font-size:13px;padding:20px;text-align:center">در حال بارگذاری کمپین‌ها...</div>
+    </div>
+  </div>
+</section>
+
+<!-- Dashboard Overview & Assistant Section -->
+<section class="dashboard" id="overviewSection">
+  <!-- AI Assistant Card -->
+  <div class="card assistant reveal" id="aiSection">
+    <div class="cardtitle">
+      <div>
+        <small>دستیار هوشمند</small>
+        <h2>مرکز فرمان صوتی و متنی</h2>
+        <div id="aiConnectedBadge" class="ai-connected-badge" style="display:none">
+          <i></i> ربات بله متصل و آماده اجرای فرامین (<span id="aiConnectedPhone"></span>)
+        </div>
+      </div>
+      <div class="aiicon">AI</div>
+    </div>
+    <div class="chat" id="chat">
+      <div class="msg bot">سلام! من دستیار هوشمند تبلیغات تو هستم. می‌توانی بنویسی یا با میکروفون بگویی: «پست‌های کانال‌های مبدا را بردار و به کانال من منتقل کن» یا «یک متن تخفیف فوق‌العاده بنویس و منتشر کن».</div>
+    </div>
+    <div class="composer">
+      <textarea id="prompt" rows="2" placeholder="دستورت را بنویس یا با میکروفون صحبت کن..."></textarea>
+      <button class="mic" id="mic" title="فرمان صوتی">🎙</button>
+      <button class="send" id="send">اجرا ←</button>
+    </div>
+    <div class="quick-chips">
+      <button class="quick-chip" data-cmd="پست‌های جدید کانال‌های مبدا را بردار و به کانال من منتقل کن">⚡ انتقال تبلیغات از کانال مبدا</button>
+      <button class="quick-chip" data-cmd="یک متن تبلیغاتی فوق‌العاده با تخفیف ویژه بنویس و منتشر کن">⚡ انتشار تبلیغ جدید در کانال</button>
+      <button class="quick-chip" data-cmd="وضعیت اتصال ربات بله و تعداد پست‌های ارسال شده را بررسی کن">⚡ وضعیت زنده ربات بله</button>
+    </div>
+    <div class="microhint">فرمان صوتی در مرورگرهای پشتیبان و روی HTTPS فعال می‌شود.</div>
+  </div>
+
+  <!-- Overview Metric Card -->
+  <div class="card overview reveal">
+    <div class="cardtitle"><div><small>نمای کلی</small><h2>وضعیت اتصال‌ها</h2></div><span class="tag">DASHBOARD</span></div>
+    <div class="metric"><span>هوش مصنوعی</span><b id="aiStatus">در انتظار تنظیم</b></div>
+    <div class="metric"><span>ربات اکانت بله</span><b id="userbotStatusMetric">در انتظار ورود</b></div>
+    <div class="metric"><span>ربات رسمی بله (Bot API)</span><b id="baleStatus">در انتظار تنظیم</b></div>
+    <div class="metric"><span>پست‌های منتشرشده</span><b id="publishedCount">۰</b></div>
+    <div class="metric"><span>پست‌های زمان‌بندی‌شده</span><b id="queuedCount">۰</b></div>
+    <button class="widebtn" id="goSettings">⚙ تنظیمات و اتصال سرویس‌ها</button>
+  </div>
+</section>
+
+<!-- Advanced Bale Login (UserBot) & Auto Forwarder Section -->
+<section class="card userbot-card reveal" id="userbotSection">
+  <div class="cardtitle">
+    <div>
+      <small>احراز هویت و انتقال هوشمند</small>
+      <h2>اتصال پیشرفته به اکانت بله و فورواردر کانال‌ها</h2>
+    </div>
+    <span class="bot-badge offline" id="userbotStatusBadge">● ربات غیرمتصل</span>
+  </div>
+
+  <div class="userbot-grid">
+    <!-- بخش ۱: ورود هوشمند و واقعی به اکانت بله -->
+    <div class="userbot-panel" id="baleLoginPanel">
+      <h3><span>💬</span> ورود و اتصال به بله (بدون نیاز به پنل پیامک)</h3>
+      <p>از یکی از روش‌های زیر به حساب بله وصل شوید؛ این فرآیند کاملاً رایگان است و به هیچ پنل پیامکی نیاز ندارد.</p>
+
+      <!-- تب‌های انتخاب روش ورود -->
+      <div class="auth-tabs" id="authTabs">
+        <button type="button" class="tab-btn active" id="tabPhoneLogin">💬 دریافت کد در بله (بدون پنل پیامک)</button>
+        <button type="button" class="tab-btn" id="tabTokenLogin">🤖 اتصال سریع با توکن بله (BotFather)</button>
+      </div>
+
+      <!-- حالت قبل از ورود -->
+      <div id="userbotDisconnectedView">
+        <!-- روش ۱: ورود با ارسال کد به بله -->
+        <div id="panePhoneAuth">
+          <!-- گام ۱: شماره تلفن یا آیدی بله -->
+          <div id="stepPhone">
+            <label style="display:block;margin-bottom:8px;font-size:12.5px;color:#c8d4f5">شماره موبایل حساب بله (جهت دریافت کد در بله)</label>
+            <div class="phone-input-row" style="margin-bottom:12px">
+              <span class="phone-prefix">🇮🇷 +98</span>
+              <input type="tel" id="userbotPhone" placeholder="مثال: 09940590290" value="" autocomplete="tel">
+            </div>
+            <button class="primary" id="btnSendBaleCode" style="width:100%;padding:13px">ارسال کد ورود به پیام‌رسان بله 💬</button>
+            <p style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.6">
+              💡 <b>بدون نیاز به پنل پیامک:</b> کد ورود مستقیماً برای حساب بله شما صادر می‌شود و نیازی به شارژ یا پنل پیامکی نیست.
+            </p>
+          </div>
+
+          <!-- گام ۲: ورود کد OTP ۵ رقمی صادر شده -->
+          <div id="stepOtp" style="display:none;margin-top:16px;border-top:1px dashed var(--line);padding-top:14px">
+            <div class="sms-status-card" style="background:rgba(84,234,255,0.08);border:1px solid rgba(84,234,255,0.25);border-radius:14px;padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
+              <span style="font-size:24px">📲</span>
+              <div>
+                <div style="font-weight:700;font-size:13.5px;color:#fff">کد تأیید ورود برای شماره <b id="otpSentToPhone" style="color:var(--cyan)"></b> ارسال شد</div>
+                <div style="font-size:11.5px;color:#c8d4f5;margin-top:2px">
+                  لطفاً کد ۵ رقمی دریافتی را در ۵ کادر زیر وارد کنید:
+                </div>
+              </div>
+            </div>
+
+            <label style="display:block;margin:10px 0 6px;font-size:12px;color:#c8d4f5;text-align:center">
+              کد ۵ رقمی دریافتی را وارد کنید:
+            </label>
+            <div class="otp-digits-wrapper" id="otpInputsWrapper">
+              <input type="text" class="otp-digit" maxlength="1" data-index="0" autofocus inputmode="numeric">
+              <input type="text" class="otp-digit" maxlength="1" data-index="1" inputmode="numeric">
+              <input type="text" class="otp-digit" maxlength="1" data-index="2" inputmode="numeric">
+              <input type="text" class="otp-digit" maxlength="1" data-index="3" inputmode="numeric">
+              <input type="text" class="otp-digit" maxlength="1" data-index="4" inputmode="numeric">
+            </div>
+
+            <button class="primary" id="btnVerifyBaleCode" style="width:100%;margin-top:12px;padding:13px">تأیید کد و ورود به بله 🔐</button>
+
+            <div class="countdown-box" style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span id="countdownText">ارسال مجدد کد پس از 00:60</span>
+              <button class="linkbtn" id="btnResendOtp" style="display:none;padding:0">ارسال مجدد کد ↺</button>
+              <button class="linkbtn" id="btnChangePhone" style="padding:0;color:var(--muted)">تغییر شماره</button>
+            </div>
+
+            <div style="text-align:center;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)">
+              <button type="button" class="linkbtn" id="btnRevealSmsCode" style="font-size:11px;color:var(--muted);text-decoration:underline">کد به دستتان نرسید؟ دریافت کد پشتیبان سیستم</button>
+              <div id="revealedSmsCodeBox" style="display:none;margin-top:8px;font-size:13px;color:var(--cyan);font-weight:800">کد صادرشده: <span id="revealedSmsCodeText" style="letter-spacing:5px"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- روش ۲: ورود مستقیم با توکن BotFather بله -->
+        <div id="paneTokenAuth" style="display:none">
+          <label style="display:block;margin-bottom:8px;font-size:12.5px;color:#c8d4f5">توکن ربات بله (از BotFather@ در بله)</label>
+          <input type="password" id="paneBaleTokenInput" placeholder="مثال: 123456789:ABCdefGHIjkl..." autocomplete="new-password" style="width:100%;margin-bottom:12px">
+          
+          <label style="display:block;margin-bottom:8px;font-size:12.5px;color:#c8d4f5">شناسه کانال مقصد (اختیاری)</label>
+          <input type="text" id="paneBaleChatIdInput" placeholder="مثال: @MyChannel" style="width:100%;margin-bottom:14px">
+
+          <button class="primary" id="btnConnectBaleToken" style="width:100%;padding:13px">بررسی و اتصال به سرور رسمی بله ⚡</button>
+          <p style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.7">
+            💡 برای دریافت توکن کافی است در پیام‌رسان بله به بازوی <b>BotFather@</b> پیام دهید و با دستور <code>/newbot</code> توکن اختصاصی دریافت کنید.
+          </p>
+        </div>
+      </div>
+
+      <!-- حالت پس از ورود موفق -->
+      <div id="userbotConnectedView" style="display:none">
+        <div class="bale-profile-box">
+          <div class="bale-avatar">🤖</div>
+          <div class="bale-profile-info">
+            <b id="connectedBotNameDisplay">اکانت فعال در بله</b>
+            <span id="connectedPhoneDisplay">شماره / شناسه: ---</span>
+            <span class="session-tag" id="sessionTagDisplay">نشست فعال و ایمن</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:#c8d4f5;line-height:1.8">
+          ✅ اتصال ربات با سرور بله برقرار است و هوش مصنوعی می‌تواند مستقیماً تبلیغات و پست‌ها را از کانال‌های مبدا به کانال مقصد ارسال کند.
+        </p>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="widebtn" id="btnTestBaleMessage" style="background:#54eaff15;border-color:var(--cyan);color:var(--cyan);font-size:12px">🧪 ارسال پیام تست به بله</button>
+          <button class="widebtn danger-btn" id="btnDisconnectUserbot" style="background:rgba(255,110,130,0.15);border:1px solid rgba(255,110,130,0.3);color:#ff9eac;font-size:12px;cursor:pointer">🚪 خروج از حساب بله (Logout)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- بخش ۲: فورواردر و کپی خودکار از کانال‌های مبدا به مقصد -->
+    <div class="userbot-panel" id="forwarderPanel">
+      <h3><span>🔄</span> انتقال خودکار تبلیغات و پست‌ها از کانال‌ها</h3>
+      <p>آیدی کانال‌های مبدا را مشخص کنید تا ربات پست‌های جدید آن‌ها را خوانده، پالایش کرده و به کانال شما بفرستد.</p>
+
+      <label class="full" style="display:block;margin-bottom:12px">
+        کانال‌های مبدا (با کاما یا خط بعد جدا کنید)
+        <textarea id="fwdSources" rows="2" placeholder="@source_channel1, @source_channel2..."></textarea>
+      </label>
+
+      <label class="full" style="display:block;margin-bottom:14px">
+        کانال مقصد من (برای ارسال پست‌ها)
+        <input type="text" id="fwdTarget" placeholder="@MyTargetChannel یا شناسه مقصد">
+      </label>
+
+      <div class="check-item">
+        <input type="checkbox" id="fwdReplaceLinks" checked>
+        <div>
+          <span>جایگزینی هوشمند آیدی و لینک‌ها</span>
+          <small>حذف آیدی و شماره‌های کانال مبدا و ثبت آیدی کانال خودت در انتهای پست</small>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <input type="checkbox" id="fwdRewriteAi" checked>
+        <div>
+          <span>بازنویسی تبلیغاتی با هوش مصنوعی (AI)</span>
+          <small>متن پست را قبل از ارسال زیباتر و مناسب کانال مقصد بازنویسی می‌کند</small>
+        </div>
+      </div>
+
+      <div class="check-item">
+        <input type="checkbox" id="fwdAutoPilot">
+        <div>
+          <span>بررسی و انتقال خودکار دوره‌ای (Auto-Pilot)</span>
+          <small>ربات در پس‌زمینه مرتباً کانال‌های مبدا را چک کرده و پست‌ها را می‌فرستد</small>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+        <button class="primary" id="btnSaveForwarder">💾 ذخیره تنظیمات</button>
+        <button class="widebtn" id="btnRunForwarderNow" style="background:#54eaff1a;border-color:var(--cyan);color:var(--cyan)">🚀 بررسی و انتقال یک پست همین حالا</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Direct Publisher Section -->
+<section class="card reveal" id="publisherSection">
+  <div class="cardtitle"><div><small>مدیریت محتوا</small><h2>انتشار مستقیم محتوا (عکس یا متن)</h2></div><span class="tag">CONTENT</span></div>
+  <div class="formgrid">
+    <label class="full">متن پست<textarea id="postText" rows="3" placeholder="متن پست را اینجا بنویس..."></textarea></label>
+    <label class="full">تصویر (اختیاری)<input type="file" id="postPhoto" accept="image/jpeg,image/png,image/webp"></label>
+  </div>
+  <div class="actions">
+    <p>حداکثر حجم تصویر ۸ مگابایت؛ فرمت‌های JPG، PNG و WEBP.</p>
+    <button class="primary" id="publishNow">انتشار همین حالا</button>
+  </div>
+</section>
+
+<!-- Settings Section -->
+<section class="card settings reveal" id="settingsSection">
+  <div class="cardtitle"><div><small>راه‌اندازی و مدیریت</small><h2>تنظیمات سرویس‌ها</h2></div><span class="tag purple">PRIVATE</span></div>
+  <div class="formgrid">
+    <label>آدرس API سازگار با OpenAI<input id="aiBase" placeholder="https://api.openai.com/v1"></label>
+    <label>نام مدل<input id="aiModel" placeholder="gpt-4o-mini"></label>
+    <label class="full">کلید API هوش مصنوعی<input id="aiKey" type="password" autocomplete="new-password" placeholder="برای تغییر کلید، مقدار جدید را وارد کن"></label>
+    <label class="full">توکن ربات رسمی بله (Bot Token)<input id="baleToken" type="password" autocomplete="new-password" placeholder="توکن بازوی رسمی بله"></label>
+    <label>شناسه کانال مقصد پیش‌فرض<input id="chatId" placeholder="@YourChannel یا شناسه مقصد"></label>
+    <label>حالت انتشار
+      <select id="auto">
+        <option value="1">خودکار برای فرمان‌های صریح انتشار</option>
+        <option value="0">فقط ساخت پیش‌نویس</option>
+      </select>
+    </label>
+    <label class="full">رمز زمان‌بندی (اختیاری)<input id="cronSecret" type="password" placeholder="یک رمز طولانی برای اجرای Cron"></label>
+    <label>سامانه ارسال پیامک کد ورود (SMS Gateway)
+      <select id="smsProvider">
+        <option value="auto">سامانه پیامک خودکار مخابراتی (Auto Gateway)</option>
+        <option value="kavenegar">کاوه‌نگار (Kavenegar SMS)</option>
+        <option value="ippanel">فراز اس‌ام‌اس / IPPanel</option>
+        <option value="bale_chat">ارسال مستقیم به حساب/چت بله (Bale Bot)</option>
+      </select>
+    </label>
+    <label>شماره خط ارسال پیامک (اختیاری)<input id="smsLineNumber" placeholder="مثال: 10008585 یا 3000..."></label>
+    <label class="full">کلید وب‌سرویس سامانه پیامک (API Key)<input id="smsApiKey" type="password" autocomplete="new-password" placeholder="کلید API جهت ارسال پیامک واقعی به شماره همراه"></label>
+    <label>شناسه کلاینت بله سفیر (Bale Safir Client ID)<input id="baleClientId" placeholder="Client ID بله سفیر برای احراز هویت واقعی"></label>
+    <label>کلید محرمانه بله سفیر (Bale Safir Secret)<input id="baleClientSecret" type="password" autocomplete="new-password" placeholder="Client Secret جهت تأیید هویت در سرور بله"></label>
+  </div>
+  <div class="actions">
+    <p>توکن ربات و کلید API به‌صورت امن نگهداری می‌شوند. ربات باید در کانال مقصد مدیر و دارای مجوز ارسال پست باشد.</p>
+    <button class="primary" id="saveSettings">ذخیره تنظیمات</button>
+  </div>
+</section>
+
+<!-- Logs Section -->
+<section class="card" id="logsSection">
+  <div class="cardtitle"><div><small>فعالیت‌های اخیر</small><h2>گزارش سیستم و وقایع ربات</h2></div><button class="linkbtn" id="refresh">به‌روزرسانی</button></div>
+  <div id="logs" class="logs"><div class="empty">در حال دریافت گزارش‌ها...</div></div>
+<!-- Modal: Create New Campaign -->
+<div class="dash-modal-backdrop" id="modalNewCampaign">
+  <div class="dash-modal-content">
+    <div class="dash-modal-header">
+      <h3>✦ ایجاد کمپین تبلیغاتی جدید</h3>
+      <button type="button" class="dash-modal-close" id="btnCloseCampaignModal">✕</button>
+    </div>
+    <form id="formNewCampaign">
+      <div class="form-group">
+        <label>عنوان کمپین تبلیغاتی</label>
+        <input type="text" id="campInputTitle" required placeholder="مثال: جشنواره تخفیف پایان فصل پاییزه">
+      </div>
+      <div class="form-group">
+        <label>دسته‌بندی و حوزه تبلیغ</label>
+        <select id="campInputCategory">
+          <option value="فروشگاهی و تخفیف">فروشگاهی و تخفیف</option>
+          <option value="آموزشی و وبینار">آموزشی و وبینار</option>
+          <option value="استخدامی و جذب همکار">استخدامی و جذب همکار</option>
+          <option value="خدمات تخصصی و سازمانی">خدمات تخصصی و سازمانی</option>
+          <option value="معرفی برند و جذب مخاطب">معرفی برند و جذب مخاطب</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>بودجه تخمینی کمپین</label>
+        <input type="text" id="campInputBudget" placeholder="مثال: ۳,۵۰۰,۰۰۰ تومان" value="۲,۵۰۰,۰۰۰ تومان">
+      </div>
+      <div class="form-group">
+        <label>شبکه‌های هدف انتشار</label>
+        <div class="checkbox-platforms-grid">
+          <label class="platform-checkbox-label">
+            <input type="checkbox" name="campPlatform" value="bale" checked> 💬 بله (Bale)
+          </label>
+          <label class="platform-checkbox-label">
+            <input type="checkbox" name="campPlatform" value="telegram" checked> ✈️ تلگرام
+          </label>
+          <label class="platform-checkbox-label">
+            <input type="checkbox" name="campPlatform" value="instagram" checked> 📸 اینستاگرام
+          </label>
+          <label class="platform-checkbox-label">
+            <input type="checkbox" name="campPlatform" value="eitaa"> 🔶 ایتا
+          </label>
+          <label class="platform-checkbox-label">
+            <input type="checkbox" name="campPlatform" value="rubika"> 💠 روبیکا
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>وضعیت اولیه انتشار</label>
+        <select id="campInputStatus">
+          <option value="active">فعال و انتشار خودکار (Active)</option>
+          <option value="scheduled">زمان‌بندی‌شده (Scheduled)</option>
+          <option value="paused">پیش‌نویس / متوقف (Paused)</option>
+        </select>
+      </div>
+      <div class="form-group" id="campScheduledTimeGroup" style="display:none">
+        <label>زمان‌بندی اجرا</label>
+        <input type="text" id="campInputScheduledTime" placeholder="مثال: فردا ساعت ۱۸:۳۰">
+      </div>
+      <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:10px">
+        <button type="button" class="btn-dash-secondary" id="btnCancelCampaignModal">انصراف</button>
+        <button type="submit" class="btn-dash-primary" id="btnSubmitNewCampaign">ثبت و راه‌اندازی کمپین 🚀</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: Connect Social Account -->
+<div class="dash-modal-backdrop" id="modalNewAccount">
+  <div class="dash-modal-content">
+    <div class="dash-modal-header">
+      <h3>📱 اتصال حساب شبکه اجتماعی جدید</h3>
+      <button type="button" class="dash-modal-close" id="btnCloseAccountModal">✕</button>
+    </div>
+    <form id="formNewAccount">
+      <div class="form-group">
+        <label>انتخاب پلتفرم یا پیام‌رسان</label>
+        <select id="accInputPlatform">
+          <option value="bale">پیام‌رسان بله (Bale)</option>
+          <option value="telegram">پیام‌رسان تلگرام (Telegram)</option>
+          <option value="instagram">شبکه اینستاگرام (Instagram)</option>
+          <option value="eitaa">پیام‌رسان ایتا (Eitaa)</option>
+          <option value="rubika">سوپراپ روبیکا (Rubika)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>نام نمایشی یا عنوان کانال / پیج</label>
+        <input type="text" id="accInputName" required placeholder="مثال: کانال رسمی فروشگاه">
+      </div>
+      <div class="form-group">
+        <label>آیدی کاربری یا شناسه کانال</label>
+        <input type="text" id="accInputHandle" required placeholder="مثال: @my_channel_ads یا 0912..." dir="ltr">
+      </div>
+      <div class="form-group">
+        <label>تعداد تقریبی مخاطبان یا اعضا</label>
+        <input type="text" id="accInputReach" placeholder="مثال: ۳۵,۰۰۰ عضو" value="۳۵,۰۰۰ عضو">
+      </div>
+      <div style="margin-top:20px;display:flex;justify-content:flex-end;gap:10px">
+        <button type="button" class="btn-dash-secondary" id="btnCancelAccountModal">انصراف</button>
+        <button type="submit" class="btn-dash-primary" id="btnSubmitNewAccount">تأیید و اتصال حساب 🔗</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer><b>YASIN AI ADS</b><span>پنل هوشمند مدیریت تبلیغات و ربات بله</span></footer>
+</main>
+<script>window.CSRF=<%- JSON.stringify(csrf) %>;</script>
+<script src="assets/app.js"></script>
+<script src="assets/fx.js"></script>
+</body>
+</html>

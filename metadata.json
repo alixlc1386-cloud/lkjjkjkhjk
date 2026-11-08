@@ -1,0 +1,8 @@
+{
+  "name": "YASIN AI ADS",
+  "description": "دستیار هوشمند تبلیغات و انتشار خودکار در بله با فرمان صوتی و هوش مصنوعی",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
